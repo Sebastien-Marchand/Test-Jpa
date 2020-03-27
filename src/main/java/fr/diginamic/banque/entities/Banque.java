@@ -9,9 +9,6 @@ import javax.persistence.*;
 @Table ( name = "BANQUE")
 public class Banque {
 	
-	@OneToMany(mappedBy="id_banque")
-	private Set<Client> clients;
-	
 	@Column(name = "NOM")
 	String nom;
 	
@@ -19,9 +16,7 @@ public class Banque {
 		
 	}
 
-	public Banque(Set<Client> clients, String nom) {
-		super();
-		this.clients = clients;
+	public Banque(String nom) {
 		this.nom = nom;
 	}
 }

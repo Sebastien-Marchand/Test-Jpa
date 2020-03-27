@@ -9,15 +9,16 @@ import javax.persistence.*;
 @Entity
 @Table ( name = "CLIENT")
 public class Client {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int id;
+	private int id;
 	@Column(name = "NOM")
-	String nom;
+	private String nom;
 	@Column(name = "PRENOM")
-	String prenom;
+	private String prenom;
 	@Column(name = "DATENAISSANCE")
-	LocalDate dateNaissance;
+	private LocalDate dateNaissance;
 	
 	@ManyToMany
 	@JoinTable(name = "Compte_client", joinColumns = @JoinColumn(name = "ID_CLIENT",
@@ -25,19 +26,32 @@ public class Client {
 	inverseJoinColumns = @JoinColumn(name = "ID_COMPTE", referencedColumnName = "ID"))
 	private Set<Compte> comptes;
 	
-	@Column(name = "ID_BANQUE")
-	@OneToOne
+	
+	@ManyToOne
+	@JoinColumn ( name = "ID_BANQUE")
 	private Banque id_banque;
 	
 	@Column(name = "ADRESSE")
 	@Embedded
 	private Adresse adresse;
 
-	@Embeddable
-	public class Adresse {
-		private Integer numero;
-		private String rue;
-		private String ville;
+	
+	public Client() {
+		super();
 	}
-
+	
+	public Client(String nom, String prenom, LocalDate dateNaissance, Banque id_banque,
+			Adresse adresse) {
+		this.nom = nom;
+		this.prenom = prenom;
+		this.dateNaissance = dateNaissance;
+		this.id_banque = id_banque;
+		this.adresse = adresse;
+	}
+	
+	public void addCompte(Compte newCompte) {
+		comptes.add(newCompte);
+	}
+	
 }
+
