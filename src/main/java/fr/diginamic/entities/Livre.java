@@ -1,6 +1,9 @@
 package fr.diginamic.entities;
 
+import java.util.Set;
+
 import javax.persistence.*;
+
 @Entity
 @Table(name = "LIVRE")
 
@@ -11,6 +14,10 @@ public class Livre {
 	private int id;
 	private String titre;
 	private String auteur;
+	
+	@ManyToMany(mappedBy="livres")
+	private Set<Emprunt> emprunts;
+	
 	public Livre()
 	{
 		
@@ -33,6 +40,13 @@ public class Livre {
 		this.auteur = auteur;
 	}
 
+	public Livre(int id, String titre, String auteur, Set<Emprunt> emprunts) {
+		super();
+		this.id = id;
+		this.titre = titre;
+		this.auteur = auteur;
+		this.emprunts = emprunts;
+	}
 	/**Getter
 	 * @return the id
 	 */
@@ -50,5 +64,10 @@ public class Livre {
 	 */
 	public String getAuteur() {
 		return auteur;
+	}
+	@Override
+	public String toString()
+	{
+		return "Livre : " + this.titre + " Auteur : " + this.auteur + " Id : " + this.id;
 	}
 }
