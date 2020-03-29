@@ -1,13 +1,11 @@
 package fr.diginamic.banque;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 
 import fr.diginamic.banque.entities.Adresse;
 import fr.diginamic.banque.entities.Banque;
@@ -17,6 +15,9 @@ import fr.diginamic.banque.entities.Operation;
 
 public class TestBanque {
 
+	private static Logger LOGGER = Logger.getLogger(TestBanque.class.getName());
+
+	
 	public static void main(String[] args) {
 
 		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("banque-jpa");
@@ -32,6 +33,21 @@ public class TestBanque {
 		client1.addCompte(compte1);
 		compte1.addOperation(ope1);
 		
+		// transation
+		EntityTransaction maTransaction = entityManager.getTransaction();
+		maTransaction.begin();
+		
+		entityManager.persist(banque1);
+		entityManager.persist(client1);
+		Arrays.asList(compte1 , ope1).forEach(entityManager::persist);
+		
+		maTransaction.commit();
+		
+		TypedQuery<Compte> query3 = entityManager.createQuery("Select c FROM Compte c", Compte.class);
+
+		for (Compte c : query3.getResultList()) {
+			LOGGER.log(Level.INFO, c.toString());
+		}
 		entityManager.close();
 		entityManagerFactory.close();
 	}

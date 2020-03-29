@@ -36,4 +36,15 @@ public class Operation {
 		this.modif = modif;
 		this.compte = compte;
 	}
+	
+	@Override
+	public String toString() {
+
+		StringBuilder builder = new StringBuilder();
+
+		builder.append("\n\t").append(this.getClass().getSimpleName()).append(" du ").append(date.toString())
+				.append("\n\t- Montant : ").append(montant).append("€").append("\n\t- Modification : ").append(modif);
+
+		return builder.toString();
+	}
 }

@@ -1,7 +1,8 @@
 package fr.diginamic.banque.entities;
 
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -22,9 +23,9 @@ public class Client {
 	
 	@ManyToMany
 	@JoinTable(name = "Compte_client", joinColumns = @JoinColumn(name = "ID_CLIENT",
-	referencedColumnName = "ID"),
+	referencedColumnName = "id"),
 	inverseJoinColumns = @JoinColumn(name = "ID_COMPTE", referencedColumnName = "ID"))
-	private Set<Compte> comptes;
+	private List<Compte> comptes;
 	
 	
 	@ManyToOne
@@ -47,10 +48,27 @@ public class Client {
 		this.dateNaissance = dateNaissance;
 		this.id_banque = id_banque;
 		this.adresse = adresse;
+		this.comptes = new ArrayList<>();
 	}
 	
 	public void addCompte(Compte newCompte) {
-		comptes.add(newCompte);
+		this.comptes.add(newCompte);
+		}
+
+	public Object getId() {
+		return id;
+	}
+	
+	@Override
+	public String toString() {
+
+		StringBuilder builder = new StringBuilder();
+
+		builder.append("Client ").append(id).append(" ").append(nom).append(" ").append(prenom)
+				.append(" \n\t- Banque : ").append(id_banque.getNom()).append("\n\t- Compte(s) : ");
+
+		comptes.stream().map(c -> c.getId()).forEach(i -> builder.append(i).append(", "));
+		return builder.toString();
 	}
 	
 }
