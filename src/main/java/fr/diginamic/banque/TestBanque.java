@@ -28,6 +28,10 @@ public class TestBanque {
 		Client client1 = new Client("Renou", "Antoine", LocalDate.now(), banque1, new Adresse(5, "rue de nantes", "Nantes"));
 
 		Compte compte1 = new Compte(Arrays.asList(client1));
+		Compte livretA = new LivretA(1.0 , Arrays.asList(client1));
+		Compte assuranceVie = new AssuranceVie(Arrays.asList(client1), LocalDate.now(), 2.0);
+
+		
 		Operation ope1 = new Operation(LocalDate.now(), 200.0,"Credit",compte1);
 		
 		client1.addCompte(compte1);
@@ -39,7 +43,7 @@ public class TestBanque {
 		
 		entityManager.persist(banque1);
 		entityManager.persist(client1);
-		Arrays.asList(compte1 , ope1).forEach(entityManager::persist);
+		Arrays.asList(compte1 , ope1 , livretA , assuranceVie).forEach(entityManager::persist);
 		
 		maTransaction.commit();
 		

@@ -1,7 +1,13 @@
 package fr.diginamic.banque;
 
-import fr.diginamic.banque.entities.Compte;
+import java.util.List;
 
+import javax.persistence.*;
+
+import fr.diginamic.banque.entities.Compte;
+import fr.diginamic.banque.entities.Client;
+
+@Entity
 public class LivretA extends Compte{
 
 	double taux;
@@ -10,8 +16,13 @@ public class LivretA extends Compte{
 		super();
 	}
 
-	public LivretA(double taux) {
-		super();
+	public LivretA(double taux,List<Client> clients) {
+		super(clients);
 		this.taux = taux;
+	}
+	
+	@Override
+	public String toString() {
+		return super.toString() + "\n\t- Taux : " + taux;
 	}
 }

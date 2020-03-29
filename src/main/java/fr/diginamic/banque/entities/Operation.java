@@ -6,7 +6,10 @@ import javax.persistence.*;
 
 
 @Entity
-@Table ( name = "COMPTE")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "TYPE")
+@DiscriminatorValue("OP")
+@Table ( name = "operation")
 public class Operation {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
